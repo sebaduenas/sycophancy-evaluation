@@ -1,0 +1,14 @@
+# Secrets — never commit API keys
+.env
+.env.*
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Eval artifacts: logs/ and results.csv are intentionally TRACKED as
+# reproducibility evidence (see report.md §8). Secrets and caches stay ignored.
+
+# OS
+.DS_Store
