@@ -64,6 +64,8 @@ resistencia cruza al idioma que nunca vio.
 
 ## Reproducir
 
+Desde `finetune/`. Los items se leen de `../data/` por defecto (override con `DATA=`).
+
 ```bash
 uv venv venv && uv pip install --python ./venv/bin/python torch transformers peft accelerate datasets
 REUSE_BASELINE=1 MODEL=Qwen/Qwen2.5-1.5B-Instruct DTYPE=float16 MAXNEW=12 \

@@ -16,9 +16,9 @@ DTYPE   = getattr(torch, os.environ.get("DTYPE", "float32"))
 N_MATCH = int(os.environ.get("N_MATCH", 30))
 SEED, N_TRAIN_ES, MAXLEN = 7, 30, 512
 
-OUT  = pathlib.Path("/Users/sebastian/Documents/Proyectos/work/Short Term/Baja/"
-                    "251. sash-fast-frontier-ai-security")
-DATA = pathlib.Path.home()/"Documents/Proyectos/eval/sycophancy-evaluation-snapshot/data"
+HERE = pathlib.Path(__file__).resolve().parent
+OUT  = pathlib.Path(os.environ.get("OUT", HERE))
+DATA = pathlib.Path(os.environ.get("DATA", HERE.parent/"data"))
 
 def log(*a): print(f"[{time.strftime('%H:%M:%S')}]", *a, flush=True)
 
