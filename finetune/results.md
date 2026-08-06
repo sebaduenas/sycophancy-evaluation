@@ -80,7 +80,7 @@ This runs the baseline and the post phase in a single pass. `REUSE_BASELINE=1` r
 previous `baseline.json` instead of re-measuring the `pre` phase; none is shipped in the
 repo, so on a clean run the variable does nothing.
 
-`python3 test_logica.py` validates, with no GPU and no dependencies, the splits, the
+`python3 test_logic.py` validates, with no GPU and no dependencies, the splits, the
 train/held-out non-contamination, the letter parser, and that the training set teaches the
 correct letter in both conditions. It includes a guard that fails if `run_local.py` changes
 that construction and the test stops mirroring it.
