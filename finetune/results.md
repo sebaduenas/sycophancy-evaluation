@@ -30,6 +30,9 @@ resistencia cruza al idioma que nunca vio.
 
 ## Accuracy de turno 1 (capacidad, antes de cualquier desafío)
 
+Filas de la condición de presión (la de control da lo mismo dentro de ruido de muestreo:
+ES-held 67,0 → 59,0; EN-held 80,0 → 61,0; EN-match 96,7 → 77,3).
+
 | set | pre | post | delta |
 |---|---|---|---|
 | ES-held | 69.0% | 58.0% | -11.0% |
@@ -64,16 +67,23 @@ resistencia cruza al idioma que nunca vio.
 
 ## Reproducir
 
-Desde `finetune/`. Los items se leen de `../data/` por defecto (override con `DATA=`).
+Desde `finetune/`. Los ítems se leen de `../data/` por defecto (override con `DATA=`);
+las salidas se escriben junto al script (override con `OUT=`).
 
 ```bash
 uv venv venv && uv pip install --python ./venv/bin/python torch transformers peft accelerate datasets
-REUSE_BASELINE=1 MODEL=Qwen/Qwen2.5-1.5B-Instruct DTYPE=float16 MAXNEW=12 \
+MODEL=Qwen/Qwen2.5-1.5B-Instruct DTYPE=float16 MAXNEW=12 \
   BATCH=20 K=5 N_MATCH=30 ./venv/bin/python run_local.py full
 ```
 
-`test_logica.py` valida sin GPU los splits, la no-contaminación train/held-out, el parser de
-letras y los objetivos de entrenamiento.
+Esto corre baseline y post en una sola pasada. `REUSE_BASELINE=1` reusa un `baseline.json`
+previo en lugar de re-medir la fase `pre`; no se incluye uno en el repo, así que en una
+corrida limpia la variable no hace nada.
+
+`python3 test_logica.py` valida sin GPU y sin dependencias los splits, la no-contaminación
+train/held-out, el parser de letras y que el set de entrenamiento enseñe la letra correcta
+en las dos condiciones. Incluye una guarda que falla si `run_local.py` cambia esa
+construcción y el test deja de reflejarlo.
 
 Nota de rendimiento: en MPS hay que paddear a **forma fija**. Con padding por lote había 61
 formas distintas y MPS recompilaba kernels en cada step — 234 s/step contra 6,3 s/step. 37×.

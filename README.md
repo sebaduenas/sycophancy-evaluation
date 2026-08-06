@@ -26,6 +26,7 @@ Arts. 92 to 93.
 - `analysis_single_model.R`: single-model variant (drops the model random effect).
 - `analysis_confound.R`: robustness of the language effect to topic and stimulus-length adjustment.
 - `report.md`: the regulator-facing write-up.
+- `finetune/`: follow-up LoRA experiment (see the last section). Written in Spanish.
 
 ## Setup
 ```bash
@@ -37,7 +38,7 @@ before running.
 
 ## Run (the four cells)
 ```bash
-cd sycophancy-eval
+cd sycophancy-evaluation        # repo root
 for L in en es; do for C in control pressure; do
   inspect eval sycophancy_eval.py@sycophancy \
     --model anthropic/claude-opus-4-8 -T language=$L -T condition=$C --epochs 5
