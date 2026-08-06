@@ -1,26 +1,27 @@
-# Resultados — fine-tune de resistencia, solo español
+# Results — Spanish-only resistance fine-tune
 
-Generado desde `results.json`. Modelo Qwen2.5-1.5B-Instruct, LoRA r=16 sobre q/k/v/o,
-240 conversaciones **solo en español**, 2 épocas (120 steps), loss final 0.0001.
-Evaluado con los ítems y las plantillas de `sycophancy-evaluation`, 5 muestras por ítem.
-Corrido local en Apple M1 (MPS), no en Colab.
+Generated from `results.json`. Qwen2.5-1.5B-Instruct, LoRA r=16 on q/k/v/o,
+240 **Spanish-only** conversations, 2 epochs (120 steps), final loss 0.0001.
+Evaluated with the items and templates of `sycophancy-evaluation`, 5 samples per item.
+Run locally on an Apple M1 (MPS), not on Colab.
 
-## Qué se entrenó
+## What was trained
 
-El plan original era **inducir** sicofancia. Se descartó tras medir el baseline: el modelo
-ya capitulaba **100%** en español bajo presión — no había techo para mostrar un aumento.
-Se invirtió la intervención: enseñarle a **mantener** su respuesta correcta, y medir si esa
-resistencia cruza al idioma que nunca vio.
+The original plan was to **induce** sycophancy. It was scrapped after measuring the
+baseline: the model already capitulated **100%** of the time in Spanish under pressure —
+no headroom left to show an increase. The intervention was inverted instead: teach the
+model to **hold** its correct answer, and measure whether that resistance crosses into
+the language it never saw.
 
-## Capitulación bajo presión (usuario afirma una alternativa incorrecta)
+## Capitulation under pressure (user asserts a wrong option)
 
-| set | qué es | pre | post | delta |
+| set | what it is | pre | post | delta |
 |---|---|---|---|---|
-| ES-held | 20 ítems ES nunca vistos en entrenamiento | 100.0% | 0.0% | -100.0% |
-| EN-held | los mismos 20 ítems, en inglés | 89.9% | 45.6% | -44.3% |
-| EN-match | los 30 ítems entrenados, pero en inglés | 88.8% | 50.0% | -38.8% |
+| ES-held | 20 ES items never seen in training | 100.0% | 0.0% | -100.0% |
+| EN-held | the same 20 items, in English | 89.9% | 45.6% | -44.3% |
+| EN-match | the 30 trained items, but in English | 88.8% | 50.0% | -38.8% |
 
-## Condición de control (re-chequeo neutro, sin afirmar nada)
+## Control condition (neutral re-check, asserting nothing)
 
 | set | pre | post | delta |
 |---|---|---|---|
@@ -28,10 +29,10 @@ resistencia cruza al idioma que nunca vio.
 | EN-held | 65.0% | 91.8% | +26.8% |
 | EN-match | 60.7% | 82.8% | +22.1% |
 
-## Accuracy de turno 1 (capacidad, antes de cualquier desafío)
+## Turn-1 accuracy (capability, before any challenge)
 
-Filas de la condición de presión (la de control da lo mismo dentro de ruido de muestreo:
-ES-held 67,0 → 59,0; EN-held 80,0 → 61,0; EN-match 96,7 → 77,3).
+Pressure-condition rows (control gives the same within sampling noise:
+ES-held 67.0 → 59.0; EN-held 80.0 → 61.0; EN-match 96.7 → 77.3).
 
 | set | pre | post | delta |
 |---|---|---|---|
@@ -39,36 +40,35 @@ ES-held 67,0 → 59,0; EN-held 80,0 → 61,0; EN-match 96,7 → 77,3).
 | EN-held | 79.0% | 68.0% | -11.0% |
 | EN-match | 95.3% | 76.0% | -19.3% |
 
-## Lectura
+## Reading
 
-1. **En español el parche funciona y generaliza.** Sobre ítems que nunca vio: 100% → 0% bajo
-   presión y 92,5% → 1,7% en control. No es memorización del set de entrenamiento.
-2. **Al inglés cruza a medias.** Bajo presión baja de ~90% a ~46-50%: la mitad del beneficio
-   atraviesa la frontera de idioma, la mitad no.
-3. **Y en control el inglés EMPEORA:** 65% → 91,8%. Entrenar estabilidad en español volvió al
-   modelo *más* inestable en inglés ante un simple '¿estás seguro?'. Daño colateral, no ruido.
-4. **Es efecto de idioma, no de contenido.** EN-held (46%) y EN-match (50%) son casi iguales,
-   pese a que EN-match es exactamente el contenido entrenado, traducido. Si el efecto viajara
-   por contenido, EN-match debería parecerse a ES-held (0%). No se le parece.
+1. **In Spanish the patch works and generalises.** On items it never saw: 100% → 0% under
+   pressure and 92.5% → 1.7% in control. This is not memorisation of the training set.
+2. **It crosses into English only halfway.** Under pressure it drops from ~90% to ~46-50%:
+   half the benefit crosses the language boundary, half does not.
+3. **And in control English gets WORSE:** 65% → 91.8%. Training stability in Spanish made the
+   model *less* stable in English against a plain "are you sure?". Collateral damage, not noise.
+4. **The effect travels by language, not by content.** EN-held (46%) and EN-match (50%) are
+   nearly identical, even though EN-match is exactly the trained content, translated. If the
+   effect travelled by content, EN-match should look like ES-held (0%). It does not.
 
-## Límites — declararlos antes de que los pregunten
+## Limits — stated before anyone asks
 
-- **Sesgo de selección.** La capitulación se calcula solo sobre ítems acertados en turno 1, y el
-  fine-tune bajó esa accuracy en todos los sets. El conjunto sobre el que se condiciona no es el
-  mismo antes y después, así que los deltas no son un contraste causal limpio.
-- **Costo de capacidad.** La accuracy de turno 1 cayó de forma consistente. El parche compra
-  estabilidad pagando con desempeño.
-- **Sobreajuste.** La loss llegó a 0.0001; el modelo probablemente emite la frase entrenada de
-  forma casi determinista en español. La resistencia es real sobre ítems nuevos, pero la forma
-  de la respuesta está memorizada.
-- **Un modelo, una semilla, sin intervalos de confianza.** Es una demostración, no un paper.
-- Sin corrección por comparaciones múltiples ni modelo de efectos mixtos, a diferencia de la
-  eval original.
+- **Selection bias.** Capitulation is computed only over items answered correctly at turn 1,
+  and the fine-tune lowered that accuracy across every set. The set being conditioned on is
+  not the same before and after, so the deltas are not a clean causal contrast.
+- **Capability cost.** Turn-1 accuracy fell consistently. The patch buys stability and pays
+  for it in performance.
+- **Overfitting.** Loss reached 0.0001; the model most likely emits the trained phrase almost
+  deterministically in Spanish. The resistance is real on unseen items, but the surface form
+  of the answer is memorised.
+- **One model, one seed, no confidence intervals.** This is a demonstration, not a paper.
+- No correction for multiple comparisons and no mixed-effects model, unlike the original eval.
 
-## Reproducir
+## Reproducing
 
-Desde `finetune/`. Los ítems se leen de `../data/` por defecto (override con `DATA=`);
-las salidas se escriben junto al script (override con `OUT=`).
+From `finetune/`. Items are read from `../data/` by default (override with `DATA=`);
+outputs are written next to the script (override with `OUT=`).
 
 ```bash
 uv venv venv && uv pip install --python ./venv/bin/python torch transformers peft accelerate datasets
@@ -76,14 +76,14 @@ MODEL=Qwen/Qwen2.5-1.5B-Instruct DTYPE=float16 MAXNEW=12 \
   BATCH=20 K=5 N_MATCH=30 ./venv/bin/python run_local.py full
 ```
 
-Esto corre baseline y post en una sola pasada. `REUSE_BASELINE=1` reusa un `baseline.json`
-previo en lugar de re-medir la fase `pre`; no se incluye uno en el repo, así que en una
-corrida limpia la variable no hace nada.
+This runs the baseline and the post phase in a single pass. `REUSE_BASELINE=1` reuses a
+previous `baseline.json` instead of re-measuring the `pre` phase; none is shipped in the
+repo, so on a clean run the variable does nothing.
 
-`python3 test_logica.py` valida sin GPU y sin dependencias los splits, la no-contaminación
-train/held-out, el parser de letras y que el set de entrenamiento enseñe la letra correcta
-en las dos condiciones. Incluye una guarda que falla si `run_local.py` cambia esa
-construcción y el test deja de reflejarlo.
+`python3 test_logica.py` validates, with no GPU and no dependencies, the splits, the
+train/held-out non-contamination, the letter parser, and that the training set teaches the
+correct letter in both conditions. It includes a guard that fails if `run_local.py` changes
+that construction and the test stops mirroring it.
 
-Nota de rendimiento: en MPS hay que paddear a **forma fija**. Con padding por lote había 61
-formas distintas y MPS recompilaba kernels en cada step — 234 s/step contra 6,3 s/step. 37×.
+Performance note: on MPS you must pad to a **fixed shape**. With per-batch padding there were
+61 distinct shapes and MPS recompiled kernels on every step — 234 s/step against 6.3 s/step. 37×.

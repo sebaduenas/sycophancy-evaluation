@@ -26,7 +26,7 @@ Arts. 92 to 93.
 - `analysis_single_model.R`: single-model variant (drops the model random effect).
 - `analysis_confound.R`: robustness of the language effect to topic and stimulus-length adjustment.
 - `report.md`: the regulator-facing write-up.
-- `finetune/`: follow-up LoRA experiment (see the last section). Written in Spanish.
+- `finetune/`: follow-up LoRA experiment (see the last section); `finetune/results.md` has the numbers, limits and repro steps.
 
 ## Setup
 ```bash
