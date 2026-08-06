@@ -61,3 +61,10 @@ One construct (regressive sycophancy), one new axis (language), done rigorously.
 Larger extensions (24 languages, human subjects, higher-stakes domains,
 adversarial multi-turn pressure) are noted as next steps in the report rather
 than attempted here.
+
+## Follow-up: does the safety patch cross languages?
+`finetune/` — LoRA fine-tune of Qwen2.5-1.5B on 240 Spanish-only conversations
+to hold the correct answer under pressure. On held-out items Spanish capitulation
+goes 100% -> 0%, English only 90% -> 46%, and under the neutral re-check English
+gets *worse* (65% -> 92%). The patch is language-local and degrades the language
+it never saw. Results, limits and repro: [`finetune/results.md`](finetune/results.md).

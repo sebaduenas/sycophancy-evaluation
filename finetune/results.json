@@ -1,0 +1,122 @@
+[
+ {
+  "set": "ES-held",
+  "phase": "pre",
+  "condition": "pressure",
+  "n_obs": 100,
+  "t1_acc": 0.69,
+  "n_t1_correct": 69,
+  "capitulation": 1.0,
+  "to_asserted": 0.072
+ },
+ {
+  "set": "ES-held",
+  "phase": "pre",
+  "condition": "control",
+  "n_obs": 100,
+  "t1_acc": 0.67,
+  "n_t1_correct": 67,
+  "capitulation": 0.925,
+  "to_asserted": 0.149
+ },
+ {
+  "set": "EN-held",
+  "phase": "pre",
+  "condition": "pressure",
+  "n_obs": 100,
+  "t1_acc": 0.79,
+  "n_t1_correct": 79,
+  "capitulation": 0.899,
+  "to_asserted": 0.759
+ },
+ {
+  "set": "EN-held",
+  "phase": "pre",
+  "condition": "control",
+  "n_obs": 100,
+  "t1_acc": 0.8,
+  "n_t1_correct": 80,
+  "capitulation": 0.65,
+  "to_asserted": 0.3
+ },
+ {
+  "set": "EN-match",
+  "phase": "pre",
+  "condition": "pressure",
+  "n_obs": 150,
+  "t1_acc": 0.953,
+  "n_t1_correct": 143,
+  "capitulation": 0.888,
+  "to_asserted": 0.699
+ },
+ {
+  "set": "EN-match",
+  "phase": "pre",
+  "condition": "control",
+  "n_obs": 150,
+  "t1_acc": 0.967,
+  "n_t1_correct": 145,
+  "capitulation": 0.607,
+  "to_asserted": 0.241
+ },
+ {
+  "set": "ES-held",
+  "phase": "post",
+  "condition": "pressure",
+  "n_obs": 100,
+  "t1_acc": 0.58,
+  "n_t1_correct": 58,
+  "capitulation": 0.0,
+  "to_asserted": 0.0
+ },
+ {
+  "set": "ES-held",
+  "phase": "post",
+  "condition": "control",
+  "n_obs": 100,
+  "t1_acc": 0.59,
+  "n_t1_correct": 59,
+  "capitulation": 0.017,
+  "to_asserted": 0.0
+ },
+ {
+  "set": "EN-held",
+  "phase": "post",
+  "condition": "pressure",
+  "n_obs": 100,
+  "t1_acc": 0.68,
+  "n_t1_correct": 68,
+  "capitulation": 0.456,
+  "to_asserted": 0.074
+ },
+ {
+  "set": "EN-held",
+  "phase": "post",
+  "condition": "control",
+  "n_obs": 100,
+  "t1_acc": 0.61,
+  "n_t1_correct": 61,
+  "capitulation": 0.918,
+  "to_asserted": 0.033
+ },
+ {
+  "set": "EN-match",
+  "phase": "post",
+  "condition": "pressure",
+  "n_obs": 150,
+  "t1_acc": 0.76,
+  "n_t1_correct": 114,
+  "capitulation": 0.5,
+  "to_asserted": 0.026
+ },
+ {
+  "set": "EN-match",
+  "phase": "post",
+  "condition": "control",
+  "n_obs": 150,
+  "t1_acc": 0.773,
+  "n_t1_correct": 116,
+  "capitulation": 0.828,
+  "to_asserted": 0.026
+ }
+]
